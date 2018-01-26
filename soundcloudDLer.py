@@ -9,7 +9,7 @@ def get(sesh, url, params, headers, numOfAttempts) :
 			returnData = sesh.get(url, params = params, headers = headers)
 			break
 		except :
-			print "ya um fail"
+			print "failed get"
 			numOfAttemps -= 1
 	return returnData
 
@@ -88,11 +88,11 @@ while 1 :
 					f = open(mp3Title, "w+")
 					f.write(mp3)
 					f.close()
-					print "dl complete"
+					print "DL complete"
 				except :
 					print "couldn't DL the track"
 			else :
-				print "dl skipped"
+				print "DL skipped"
 		print nextHREF
 		data = get(sesh, nextHREF, likesParams, headers, 5).json()
 
