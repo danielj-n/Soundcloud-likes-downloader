@@ -1,13 +1,3 @@
-####TO FIX ENCODING: try just "ord"-ing every character and then figure out how many bytes that uses and then add them all up and make that less 255
-
-
-
-#https://api-v2.soundcloud.com/users/40769393/likes?client_id=cnSYjxmeQCWsxjhf07BNwv5EUDe1jlNB&limit=100&offset=0&linked_partitioning=1&app_version=1512658529&app_locale=en
-#at the end of the json you get a "next url" thing that gets you to the next URL
-#the only thing you need to farm for the request is the client ID
-#https://api.soundcloud.com/i1/tracks/359953751/streams?client_id=a3e059563d7fd3372b49b37f00a00bcf
-#from here you get download links. Use the same client ID and the track num you get from above
-
 import requests
 import os.path
 
@@ -56,8 +46,14 @@ def cutString(string, length) :
 		cutString = cutString + char
 	return cutString
 
-userID = "40769393"
-clientID = "cnSYjxmeQCWsxjhf07BNwv5EUDe1jlNB"
+def readFromFile(fileName) :
+	f = open(fileName, "r+")
+	data = f.read()
+	f.close()
+	return data
+
+userID = readFromFile("userID.txt").replace("\n", "") 
+clientID = readFromFile("clientID.txt") .replace("\n", "")
 likesURL = "https://api-v2.soundcloud.com/users/" + userID + "/likes"
 likesParams = {	"client_id": clientID,
 		"limit": 100,
@@ -67,7 +63,7 @@ likesParams = {	"client_id": clientID,
 		"app_locale": "en"	}
 sesh = requests.session()
 headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/60.0.3112.113 Chrome/60.0.3112.113 Safari/537.36"}
-print "frick a noob"
+print "starting"
 data = get(sesh, likesURL, likesParams, headers, 5).json()
 
 likesParams = {	"client_id": clientID,
